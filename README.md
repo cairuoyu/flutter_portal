@@ -12,6 +12,7 @@
 ## 安装
 ```bash
 flutter packages get
+flutter create .
 ```
 
 ## 运行
