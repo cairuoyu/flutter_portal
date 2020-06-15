@@ -1,9 +1,10 @@
+
 import 'package:flutter_portal/models/responeBodyApi.dart';
 import 'package:flutter_portal/utils/httpUtil.dart';
 
-class ImageApi {
+class VideoApi {
   static Future<ResponeBodyApi> list(data) async {
-    ResponeBodyApi responeBodyApi = await HttpUtil.post('/image/list', data: data);
+    ResponeBodyApi responeBodyApi = await HttpUtil.post('/video/list', data: data);
     return responeBodyApi;
   }
 }

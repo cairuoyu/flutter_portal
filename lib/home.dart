@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/utils/utils.dart';
+import 'package:flutter_portal/video/videoList.dart';
 
 import 'image/imageList.dart';
 
@@ -9,12 +10,14 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  final tabs = ['图片'];
+  final tabs = ['图片', '视频'];
 
   @override
   Widget build(BuildContext context) {
     Scaffold scaffold = Scaffold(
-      body: ImageList(),
+      body: TabBarView(
+        children: [ImageList(), VideoList()],
+      ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text("FLUTTER_PORTAL"),

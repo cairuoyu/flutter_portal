@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_portal/api/imageApi.dart';
-import 'package:flutter_portal/models/image.dart' as model;
+import 'package:flutter_portal/api/videoApi.dart';
+import 'package:flutter_portal/models/video.dart' as model;
 import 'package:flutter_portal/models/requestBodyApi.dart';
 import 'package:flutter_portal/models/responeBodyApi.dart';
 
-import 'imageCard.dart';
+import 'videoCard.dart';
 
-class ImageList extends StatefulWidget {
+class VideoList extends StatefulWidget {
   @override
-  ImageListState createState() => ImageListState();
+  VideoListState createState() => VideoListState();
 }
 
-class ImageListState extends State<ImageList> {
+class VideoListState extends State<VideoList> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  List<model.Image> imageList = [];
-  model.Image image = model.Image();
+  List<model.Video> videoList = [];
+  model.Video video = model.Video();
 
   search() {
     FormState form = formKey.currentState;
@@ -23,10 +23,10 @@ class ImageListState extends State<ImageList> {
   }
 
   loadData() async {
-    RequestBodyApi requestBodyApi = RequestBodyApi(params: image.toJson());
-    ResponeBodyApi responeBodyApi = await ImageApi.list(requestBodyApi);
+    RequestBodyApi requestBodyApi = RequestBodyApi(params: video.toJson());
+    ResponeBodyApi responeBodyApi = await VideoApi.list(requestBodyApi);
     var data = responeBodyApi.data;
-    imageList = List.from(data).map((e) => model.Image.fromJson(e)).toList();
+    videoList = List.from(data).map((e) => model.Video.fromJson(e)).toList();
     this.setState(() {});
   }
 
@@ -49,7 +49,7 @@ class ImageListState extends State<ImageList> {
             search();
           },
           onSaved: (v) {
-            image.title = v;
+            video.title = v;
           },
           cursorColor: Theme.of(context).primaryColor,
           style: TextStyle(color: Colors.black, fontSize: 18),
@@ -64,7 +64,8 @@ class ImageListState extends State<ImageList> {
                 ),
               ),
               border: InputBorder.none,
-              contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+              contentPadding:
+                  EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
         ),
       ),
     );
@@ -74,10 +75,10 @@ class ImageListState extends State<ImageList> {
         Column(
           children: [
             ...List.generate(
-              imageList.length,
+              videoList.length,
               (index) => Padding(
                 padding: EdgeInsets.all(10),
-                child: ImageCard(imageList[index]),
+                child: VideoCard(videoList[index]),
               ),
             ),
           ],
