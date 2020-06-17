@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_portal/api/imageApi.dart';
 import 'package:flutter_portal/models/image.dart' as model;
 import 'package:flutter_portal/models/requestBodyApi.dart';
@@ -15,6 +16,8 @@ class ImageListState extends State<ImageList> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   List<model.Image> imageList = [];
   model.Image image = model.Image();
+  ScrollController controller = new ScrollController();
+  bool toTopButtonVisible = false;
 
   search() {
     FormState form = formKey.currentState;
@@ -32,6 +35,16 @@ class ImageListState extends State<ImageList> {
 
   @override
   void initState() {
+    controller.addListener(() {
+      double topLimit = 500;
+      if (controller.offset < topLimit && toTopButtonVisible) {
+        toTopButtonVisible = false;
+        setState(() {});
+      } else if (controller.offset > topLimit && !toTopButtonVisible) {
+        toTopButtonVisible = true;
+        setState(() {});
+      }
+    });
     super.initState();
     loadData();
     setState(() {});
@@ -68,21 +81,52 @@ class ImageListState extends State<ImageList> {
         ),
       ),
     );
-    var result = ListView(
+    double width = MediaQuery.of(context).size.width;
+    int columnCount = width ~/ 500 + 1;
+    int rowConunt = imageList.length ~/ columnCount + 1;
+    var listView = ListView(
+      controller: controller,
       children: [
         searchFrom,
         Column(
           children: [
-            ...List.generate(
-              imageList.length,
-              (index) => Padding(
-                padding: EdgeInsets.all(10),
-                child: ImageCard(imageList[index]),
-              ),
+            ...List<Widget>.generate(
+              rowConunt,
+              (y) {
+                return Row(
+                  children: [
+                    ...List<Widget>.generate(columnCount, (x) {
+                      int index = columnCount * y + x;
+                      var card = Padding(
+                        padding: EdgeInsets.all(10),
+                        child: (index > imageList.length - 1) ? Container() : ImageCard(imageList[index]),
+                      );
+                      return Expanded(
+                        child: card,
+                      );
+                    }),
+                  ],
+                );
+              },
             ),
           ],
         )
       ],
+    );
+    var result = Scaffold(
+      body: listView,
+      floatingActionButton: !toTopButtonVisible
+          ? null
+          : FloatingActionButton(
+              child: Icon(Icons.arrow_upward),
+              onPressed: () {
+                controller.animateTo(
+                  .0,
+                  duration: Duration(milliseconds: 200),
+                  curve: Curves.ease,
+                );
+              },
+            ),
     );
     return result;
   }

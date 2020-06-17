@@ -64,22 +64,36 @@ class VideoListState extends State<VideoList> {
                 ),
               ),
               border: InputBorder.none,
-              contentPadding:
-                  EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
+              contentPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 13)),
         ),
       ),
     );
+    double width = MediaQuery.of(context).size.width;
+    int columnCount = width ~/ 500 + 1;
+    int rowConunt = videoList.length ~/ columnCount + 1;
     var result = ListView(
       children: [
         searchFrom,
         Column(
           children: [
-            ...List.generate(
-              videoList.length,
-              (index) => Padding(
-                padding: EdgeInsets.all(10),
-                child: VideoCard(videoList[index]),
-              ),
+            ...List<Widget>.generate(
+              rowConunt,
+              (y) {
+                return Row(
+                  children: [
+                    ...List<Widget>.generate(columnCount, (x) {
+                      int index = columnCount * y + x;
+                      var card = Padding(
+                        padding: EdgeInsets.all(10),
+                        child: (index > videoList.length - 1) ? Container() : VideoCard(videoList[index]),
+                      );
+                      return Expanded(
+                        child: card,
+                      );
+                    }),
+                  ],
+                );
+              },
             ),
           ],
         )

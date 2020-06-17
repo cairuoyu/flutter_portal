@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/models/image.dart' as model;
-import 'package:flutter_portal/utils/adaptiveUtil.dart';
 
 class ImageCard extends StatelessWidget {
   final model.Image imageModel;
@@ -12,7 +11,7 @@ class ImageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     Image image = Image(
       image: NetworkImage(imageModel.url),
-       width:isDisplayDesktop(context)? width:double.infinity,
+      width: double.infinity,
     );
     Card card = Card(
       child: Column(
@@ -25,12 +24,6 @@ class ImageCard extends StatelessWidget {
         ],
       ),
     );
-
-    Widget widget = Container(
-      padding: EdgeInsets.all(10),
-      child: card,
-    );
-
-    return widget;
+    return card;
   }
 }

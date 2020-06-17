@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_portal/models/responeBodyApi.dart';
@@ -32,15 +30,7 @@ class HttpUtil {
     data = data ?? {};
     method = method ?? POST;
 
-//    String token = LocalStorageUtil.get(Constant.KEY_TOKEN);
-//    if (url != "/user/login" && requestToken && token == null) {
-      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Layout1()));
-//    }
-
     Dio dio = createInstance();
-    if (requestToken) {
-//      dio.options.headers[HttpHeaders.authorizationHeader] = token;
-    }
     dio.options.method = method;
     var result;
 
