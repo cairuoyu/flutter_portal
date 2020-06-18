@@ -2,9 +2,12 @@
 
 使用flutter实现的一个门户系统，对应的后台管理系统：https://github.com/cairuoyu/flutter_admin
 
+![image](https://raw.githubusercontent.com/cairuoyu/screenshots/master/flutter_portal_image.png)
+
 ---
 ## 功能技术
-* 图片查看
+* 图片搜索
+* 视频搜索
 
 ## flutter 版本
 * 1.17.0

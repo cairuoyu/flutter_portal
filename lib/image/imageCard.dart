@@ -3,7 +3,6 @@ import 'package:flutter_portal/models/image.dart' as model;
 
 class ImageCard extends StatelessWidget {
   final model.Image imageModel;
-  final double width = 700;
 
   ImageCard(this.imageModel);
 

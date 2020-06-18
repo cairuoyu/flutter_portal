@@ -29,7 +29,9 @@ class VideoCardState extends State<VideoCard> {
       child: Column(
         children: [
           previewVideo(),
-          IconButton(onPressed: play, icon: Icon(controller.value.isPlaying ? Icons.pause_circle_outline : Icons.play_circle_outline)),
+          IconButton(
+              onPressed: play,
+              icon: Icon(controller.value.isPlaying ? Icons.pause_circle_outline : Icons.play_circle_outline)),
           Container(
             padding: EdgeInsets.all(5),
             child: Text(widget.videoModel.title),
