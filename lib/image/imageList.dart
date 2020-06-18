@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_portal/api/imageApi.dart';
 import 'package:flutter_portal/common/cryListView.dart';
 import 'package:flutter_portal/common/crySearchBar.dart';
-import 'package:flutter_portal/models/image.dart' as model;
+import 'package:flutter_portal/models/index.dart' as model;
 import 'package:flutter_portal/models/requestBodyApi.dart';
 import 'package:flutter_portal/models/responeBodyApi.dart';
 
@@ -17,6 +17,8 @@ class ImageList extends StatefulWidget {
 class ImageListState extends State<ImageList> {
   List<model.Image> imageList = [];
   model.Image image = model.Image();
+  model.Page page = model.Page();
+  bool anyMore = true;
   @override
   void initState() {
     super.initState();
@@ -37,6 +39,8 @@ class ImageListState extends State<ImageList> {
       getCell: (index) {
         return ImageCard(imageList[index]);
       },
+      loadMore: loadMore,
+      onRefresh: refresh,
     );
     var result = Stack(
       children: [
@@ -50,11 +54,29 @@ class ImageListState extends State<ImageList> {
     return result;
   }
 
+  Future refresh() async {
+    page.current = 1;
+    imageList = [];
+    anyMore = true;
+    await loadData();
+  }
+
+  loadMore() {
+    if (!anyMore) {
+      return;
+    }
+    page.current++;
+    loadData();
+  }
+
   loadData() async {
-    RequestBodyApi requestBodyApi = RequestBodyApi(params: image.toJson());
-    ResponeBodyApi responeBodyApi = await ImageApi.list(requestBodyApi);
-    var data = responeBodyApi.data;
-    imageList = List.from(data).map((e) => model.Image.fromJson(e)).toList();
+    RequestBodyApi requestBodyApi = RequestBodyApi(params: image.toJson(), page: page);
+    ResponeBodyApi responeBodyApi = await ImageApi.page(requestBodyApi);
+    page = model.Page.fromJson(responeBodyApi.data);
+    imageList = [...imageList, ...page.records.map((e) => model.Image.fromJson(e)).toList()];
+    if (page.current == page.pages) {
+      anyMore = false;
+    }
     this.setState(() {});
   }
 }

@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 class CryListView extends StatefulWidget {
   final int count;
   final Function getCell;
-  CryListView({Key key, this.count, this.getCell}) : super(key: key);
+  final VoidCallback loadMore;
+  final RefreshCallback onRefresh;
+  CryListView({Key key, this.count, this.getCell, this.loadMore, this.onRefresh}) : super(key: key);
 
   @override
   CryListViewState createState() => CryListViewState();
@@ -22,6 +24,9 @@ class CryListViewState extends State<CryListView> {
       } else if (controller.offset > topLimit && !toTopButtonVisible) {
         toTopButtonVisible = true;
         setState(() {});
+      }
+      if (controller.position.maxScrollExtent == controller.position.pixels) {
+        widget.loadMore();
       }
     });
     super.initState();
@@ -60,7 +65,10 @@ class CryListViewState extends State<CryListView> {
       ],
     );
     var result = Scaffold(
-      body: listView,
+      body: RefreshIndicator(
+        child: listView,
+        onRefresh: widget.onRefresh ?? () async {},
+      ),
       floatingActionButton: !toTopButtonVisible
           ? null
           : FloatingActionButton(

@@ -3,7 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter_portal/api/videoApi.dart';
 import 'package:flutter_portal/common/cryListView.dart';
 import 'package:flutter_portal/common/crySearchBar.dart';
-import 'package:flutter_portal/models/video.dart' as model;
+import 'package:flutter_portal/models/index.dart' as model;
 import 'package:flutter_portal/models/requestBodyApi.dart';
 import 'package:flutter_portal/models/responeBodyApi.dart';
 
@@ -17,6 +17,8 @@ class VideoList extends StatefulWidget {
 class VideoListState extends State<VideoList> {
   List<model.Video> videoList = [];
   model.Video video = model.Video();
+  model.Page page = model.Page();
+  bool anyMore = true;
   @override
   void initState() {
     super.initState();
@@ -37,6 +39,8 @@ class VideoListState extends State<VideoList> {
       getCell: (index) {
         return VideoCard(videoList[index]);
       },
+      loadMore: loadMore,
+      onRefresh: refresh,
     );
     var result = Stack(
       children: [
@@ -50,12 +54,29 @@ class VideoListState extends State<VideoList> {
     return result;
   }
 
+  Future refresh() async {
+    page.current = 1;
+    videoList = [];
+    anyMore = true;
+    await loadData();
+  }
+
+  loadMore() {
+    if (!anyMore) {
+      return;
+    }
+    page.current++;
+    loadData();
+  }
+
   loadData() async {
-    RequestBodyApi requestBodyApi = RequestBodyApi(params: video.toJson());
-    ResponeBodyApi responeBodyApi = await VideoApi.list(requestBodyApi);
-    var data = responeBodyApi.data;
-    videoList = List.from(data).map((e) => model.Video.fromJson(e)).toList();
+    RequestBodyApi requestBodyApi = RequestBodyApi(params: video.toJson(), page: page);
+    ResponeBodyApi responeBodyApi = await VideoApi.page(requestBodyApi);
+    page = model.Page.fromJson(responeBodyApi.data);
+    videoList = [...videoList, ...page.records.map((e) => model.Video.fromJson(e)).toList()];
+    if (page.current == page.pages) {
+      anyMore = false;
+    }
     this.setState(() {});
   }
 }
-
