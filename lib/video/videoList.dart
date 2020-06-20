@@ -30,7 +30,7 @@ class VideoListState extends State<VideoList> {
     var searchForm = CrySearchBar(
       onSearch: (v) {
         this.video.title = v;
-        this.loadData();
+        this.reloadData();
       },
     );
 
@@ -40,7 +40,7 @@ class VideoListState extends State<VideoList> {
         return VideoCard(videoList[index]);
       },
       loadMore: loadMore,
-      onRefresh: refresh,
+      onRefresh: reloadData,
     );
     var result = Stack(
       children: [
@@ -54,7 +54,7 @@ class VideoListState extends State<VideoList> {
     return result;
   }
 
-  Future refresh() async {
+  Future reloadData() async {
     page.current = 1;
     videoList = [];
     anyMore = true;

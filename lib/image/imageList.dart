@@ -30,7 +30,7 @@ class ImageListState extends State<ImageList> {
     var searchForm = CrySearchBar(
       onSearch: (v) {
         this.image.title = v;
-        this.loadData();
+        this.reloadData();
       },
     );
 
@@ -40,7 +40,7 @@ class ImageListState extends State<ImageList> {
         return ImageCard(imageList[index]);
       },
       loadMore: loadMore,
-      onRefresh: refresh,
+      onRefresh: reloadData,
     );
     var result = Stack(
       children: [
@@ -54,7 +54,7 @@ class ImageListState extends State<ImageList> {
     return result;
   }
 
-  Future refresh() async {
+  Future reloadData() async {
     page.current = 1;
     imageList = [];
     anyMore = true;
