@@ -2,7 +2,10 @@
 
 > 使用flutter实现的一个门户系统，对应的后台管理系统：https://github.com/cairuoyu/flutter_admin
 
-![image](http://cryqd.com/f/screenshots/flutter_portal_image.png)
+## live demo
+http://www.cairuoyu.com/flutter_portal
+
+![image](http://cairuoyu.com/screenshots/flutter_portal_image.png)
 
 ---
 ## 功能技术
@@ -23,6 +26,3 @@ flutter create .
 ```bash
 flutter run -d chrome
 ```
-
-## live demo
-http://www.cryqd.com/flutter_portal
