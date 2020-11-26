@@ -1,11 +1,13 @@
+import 'package:cry/cry_list_view.dart';
+import 'package:cry/cry_search_bar.dart';
+import 'package:cry/model/order_item_model.dart';
+import 'package:cry/model/page_model.dart';
+import 'package:cry/model/request_body_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_portal/api/imageApi.dart';
-import 'package:flutter_portal/common/cryListView.dart';
-import 'package:flutter_portal/common/crySearchBar.dart';
-import 'package:flutter_portal/models/index.dart' as model;
-import 'package:flutter_portal/models/requestBodyApi.dart';
-import 'package:flutter_portal/models/responeBodyApi.dart';
+import 'package:flutter_portal/models/image.dart' as model;
+import 'package:cry/model/response_body_api.dart';
 
 import 'imageCard.dart';
 
@@ -17,7 +19,7 @@ class ImageList extends StatefulWidget {
 class ImageListState extends State<ImageList> {
   List<model.Image> imageList = [];
   model.Image image = model.Image();
-  model.Page page = model.Page();
+  PageModel page = PageModel(orders: [OrderItemModel(column: 'create_time')]);
   bool anyMore = true;
   @override
   void initState() {
@@ -35,6 +37,7 @@ class ImageListState extends State<ImageList> {
     );
 
     var listView = CryListView(
+      cryListViewType: CryListViewType.wrap,
       count: imageList.length,
       getCell: (index) {
         return ImageCard(imageList[index]);
@@ -71,8 +74,8 @@ class ImageListState extends State<ImageList> {
 
   loadData() async {
     RequestBodyApi requestBodyApi = RequestBodyApi(params: image.toJson(), page: page);
-    ResponeBodyApi responeBodyApi = await ImageApi.page(requestBodyApi);
-    page = model.Page.fromJson(responeBodyApi.data);
+    ResponseBodyApi responseBodyApi = await ImageApi.page(requestBodyApi.toMap());
+    page = PageModel.fromMap(responseBodyApi.data);
     imageList = [...imageList, ...page.records.map((e) => model.Image.fromJson(e)).toList()];
     if (page.current == page.pages) {
       anyMore = false;

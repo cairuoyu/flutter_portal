@@ -1,11 +1,13 @@
+import 'package:cry/cry_list_view.dart';
+import 'package:cry/cry_search_bar.dart';
+import 'package:cry/model/order_item_model.dart';
+import 'package:cry/model/page_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_portal/api/videoApi.dart';
-import 'package:flutter_portal/common/cryListView.dart';
-import 'package:flutter_portal/common/crySearchBar.dart';
-import 'package:flutter_portal/models/index.dart' as model;
-import 'package:flutter_portal/models/requestBodyApi.dart';
-import 'package:flutter_portal/models/responeBodyApi.dart';
+import 'package:flutter_portal/models/video.dart' as model;
+import 'package:cry/model/request_body_api.dart';
+import 'package:cry/model/response_body_api.dart';
 
 import 'videoCard.dart';
 
@@ -17,7 +19,7 @@ class VideoList extends StatefulWidget {
 class VideoListState extends State<VideoList> {
   List<model.Video> videoList = [];
   model.Video video = model.Video();
-  model.Page page = model.Page();
+  PageModel page = PageModel(orders: [OrderItemModel(column: 'create_time')]);
   bool anyMore = true;
   @override
   void initState() {
@@ -35,6 +37,7 @@ class VideoListState extends State<VideoList> {
     );
 
     var listView = CryListView(
+      cryListViewType: CryListViewType.wrap,
       count: videoList.length,
       getCell: (index) {
         return VideoCard(videoList[index]);
@@ -71,8 +74,8 @@ class VideoListState extends State<VideoList> {
 
   loadData() async {
     RequestBodyApi requestBodyApi = RequestBodyApi(params: video.toJson(), page: page);
-    ResponeBodyApi responeBodyApi = await VideoApi.page(requestBodyApi);
-    page = model.Page.fromJson(responeBodyApi.data);
+    ResponseBodyApi responseBodyApi = await VideoApi.page(requestBodyApi.toMap());
+    page = PageModel.fromMap(responseBodyApi.data);
     videoList = [...videoList, ...page.records.map((e) => model.Video.fromJson(e)).toList()];
     if (page.current == page.pages) {
       anyMore = false;

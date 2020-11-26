@@ -1,6 +1,6 @@
 import 'package:bot_toast/bot_toast.dart';
+import 'package:cry/model/response_body_api.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter_portal/models/responeBodyApi.dart';
 
 class HttpUtil {
   static Dio dio;
@@ -13,17 +13,17 @@ class HttpUtil {
   static const String POST = 'post';
   static const String GET= 'get';
 
-  static Future<ResponeBodyApi> get(String url, {data, requestToken = true}) async {
+  static Future<ResponseBodyApi> get(String url, {data, requestToken = true}) async {
     Map map = await request(url, data: data, requestToken: requestToken,method: GET);
     if (map == null) {}
-    ResponeBodyApi responeBodyApi = ResponeBodyApi.fromJson(map);
-    return responeBodyApi;
+    ResponseBodyApi responseBodyApi = ResponseBodyApi.fromMap(map);
+    return responseBodyApi;
   }
-  static Future<ResponeBodyApi> post(String url, {data, requestToken = true}) async {
+  static Future<ResponseBodyApi> post(String url, {data, requestToken = true}) async {
     Map map = await request(url, data: data, requestToken: requestToken);
     if (map == null) {}
-    ResponeBodyApi responeBodyApi = ResponeBodyApi.fromJson(map);
-    return responeBodyApi;
+    ResponseBodyApi responseBodyApi = ResponseBodyApi.fromMap(map);
+    return responseBodyApi;
   }
 
   static Future<Map> request(String url, {data, method, requestToken = true}) async {

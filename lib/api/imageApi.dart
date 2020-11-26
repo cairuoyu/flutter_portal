@@ -1,4 +1,4 @@
-import 'package:flutter_portal/models/responeBodyApi.dart';
+import 'package:cry/model/response_body_api.dart';
 import 'package:flutter_portal/utils/httpUtil.dart';
 
 class ImageApi {
@@ -7,8 +7,8 @@ class ImageApi {
     return HttpUtil.post('/image/page', data: data);
   }
 
-  static Future<ResponeBodyApi> list(data) async {
-    ResponeBodyApi responeBodyApi = await HttpUtil.post('/image/list', data: data);
-    return responeBodyApi;
+  static Future<ResponseBodyApi> list(data) async {
+    ResponseBodyApi responseBodyApi = await HttpUtil.post('/image/list', data: data);
+    return responseBodyApi;
   }
 }
