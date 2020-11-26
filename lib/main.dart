@@ -7,14 +7,13 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BotToastInit(
-      child: MaterialApp(
-        title: 'FLUTTER_PORTAL',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        home: Home(),
+    return MaterialApp(
+      title: 'FLUTTER_PORTAL',
+      builder: BotToastInit(),
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: Home(),
     );
   }
 }
