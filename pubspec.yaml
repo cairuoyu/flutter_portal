@@ -16,6 +16,7 @@ dependencies:
   url_launcher: ^5.4.1
   video_player: ^0.10.5
   cry: ^0.1.2
+  cached_network_image: ^2.4.1
 
 dev_dependencies:
   flutter_test:

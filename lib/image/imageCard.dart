@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/models/image.dart' as model;
 
@@ -8,9 +9,10 @@ class ImageCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Image image = Image(
-      image: NetworkImage(imageModel.url),
-      width: double.infinity,
+    CachedNetworkImage image = CachedNetworkImage(
+      imageUrl: imageModel.url,
+      placeholder: (context, url) => CircularProgressIndicator(),
+      errorWidget: (context, url, error) => Icon(Icons.error),
     );
     Card card = Card(
       child: Column(
