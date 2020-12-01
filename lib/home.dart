@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/utils/utils.dart';
-import 'package:flutter_portal/video/videoList.dart';
+import 'package:flutter_portal/video/video_list.dart';
 
-import 'image/imageList.dart';
+import 'image/image_list.dart';
 
 class Home extends StatefulWidget {
   @override

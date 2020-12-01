@@ -1,5 +1,5 @@
 import 'package:cry/model/response_body_api.dart';
-import 'package:flutter_portal/utils/httpUtil.dart';
+import 'package:flutter_portal/utils/http_util.dart';
 
 class ImageApi {
 

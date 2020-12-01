@@ -2,23 +2,23 @@ import 'package:cry/cry_list_view.dart';
 import 'package:cry/cry_search_bar.dart';
 import 'package:cry/model/order_item_model.dart';
 import 'package:cry/model/page_model.dart';
+import 'package:cry/model/request_body_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter_portal/api/videoApi.dart';
-import 'package:flutter_portal/models/video.dart' as model;
-import 'package:cry/model/request_body_api.dart';
+import 'package:flutter_portal/api/image_api.dart';
+import 'package:flutter_portal/models/image.dart' as model;
 import 'package:cry/model/response_body_api.dart';
 
-import 'videoCard.dart';
+import 'image_card.dart';
 
-class VideoList extends StatefulWidget {
+class ImageList extends StatefulWidget {
   @override
-  VideoListState createState() => VideoListState();
+  ImageListState createState() => ImageListState();
 }
 
-class VideoListState extends State<VideoList> {
-  List<model.Video> videoList = [];
-  model.Video video = model.Video();
+class ImageListState extends State<ImageList> {
+  List<model.Image> imageList = [];
+  model.Image image = model.Image();
   PageModel page = PageModel(orders: [OrderItemModel(column: 'create_time')]);
   bool anyMore = true;
   @override
@@ -31,16 +31,16 @@ class VideoListState extends State<VideoList> {
   Widget build(BuildContext context) {
     var searchForm = CrySearchBar(
       onSearch: (v) {
-        this.video.title = v;
+        this.image.title = v;
         this.reloadData();
       },
     );
 
     var listView = CryListView(
       cryListViewType: CryListViewType.wrap,
-      count: videoList.length,
+      count: imageList.length,
       getCell: (index) {
-        return VideoCard(videoList[index]);
+        return ImageCard(imageList[index]);
       },
       loadMore: loadMore,
       onRefresh: reloadData,
@@ -59,7 +59,7 @@ class VideoListState extends State<VideoList> {
 
   Future reloadData() async {
     page.current = 1;
-    videoList = [];
+    imageList = [];
     anyMore = true;
     await loadData();
   }
@@ -73,10 +73,10 @@ class VideoListState extends State<VideoList> {
   }
 
   loadData() async {
-    RequestBodyApi requestBodyApi = RequestBodyApi(params: video.toJson(), page: page);
-    ResponseBodyApi responseBodyApi = await VideoApi.page(requestBodyApi.toMap());
+    RequestBodyApi requestBodyApi = RequestBodyApi(params: image.toJson(), page: page);
+    ResponseBodyApi responseBodyApi = await ImageApi.page(requestBodyApi.toMap());
     page = PageModel.fromMap(responseBodyApi.data);
-    videoList = [...videoList, ...page.records.map((e) => model.Video.fromJson(e)).toList()];
+    imageList = [...imageList, ...page.records.map((e) => model.Image.fromJson(e)).toList()];
     if (page.current == page.pages) {
       anyMore = false;
     }

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/models/video.dart';
-import 'package:flutter_portal/utils/adaptiveUtil.dart';
+import 'package:flutter_portal/utils/adaptive_util.dart';
 import 'package:video_player/video_player.dart';
-import 'aspectRatioVideo.dart';
+import 'aspect_ratio_video.dart';
 
 class VideoCard extends StatefulWidget {
   VideoCard(this.videoModel);
