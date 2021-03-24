@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_portal/article/article_list.dart';
+import 'package:flutter_portal/common/keep_alive_wrapper.dart';
 import 'package:flutter_portal/utils/utils.dart';
 import 'package:flutter_portal/video/video_list.dart';
 
@@ -10,13 +12,17 @@ class Home extends StatefulWidget {
 }
 
 class HomeState extends State<Home> {
-  final tabs = ['图片', '视频'];
+  final tabs = ['文章', '图片', '视频'];
 
   @override
   Widget build(BuildContext context) {
     Scaffold scaffold = Scaffold(
       body: TabBarView(
-        children: [ImageList(), VideoList()],
+        children: [
+          KeepAliveWrapper(child: ArticleList()),
+          KeepAliveWrapper(child: ImageList()),
+          KeepAliveWrapper(child: VideoList()),
+        ],
       ),
       appBar: AppBar(
         automaticallyImplyLeading: false,
