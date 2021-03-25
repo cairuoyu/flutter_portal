@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_portal/models/image.dart' as model;
+import 'package:get/get.dart';
 
 class ImageCard extends StatelessWidget {
   final model.Image imageModel;
@@ -17,7 +18,17 @@ class ImageCard extends StatelessWidget {
     Card card = Card(
       child: Column(
         children: [
-          image,
+          InkWell(
+            child: image,
+            onTap: () => Get.to(
+              Scaffold(
+                body: InkWell(
+                  child: Center(child: image),
+                  onTap: () => Get.back(),
+                ),
+              ),
+            ),
+          ),
           Container(
             padding: EdgeInsets.all(5),
             child: Text(imageModel.title),
