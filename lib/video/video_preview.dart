@@ -15,7 +15,7 @@ class VideoPreview extends StatefulWidget {
 }
 
 class VideoPreviewState extends State<VideoPreview> {
-  VideoPlayerController controller;
+  late VideoPlayerController controller;
 
   @override
   void initState() {
@@ -50,12 +50,12 @@ class VideoPreviewState extends State<VideoPreview> {
     if (controller != null) {
       await controller.setVolume(0.0);
       await controller.dispose();
-      controller = null;
+      // controller = null;
     }
   }
 
   init() async {
-    controller = VideoPlayerController.network(widget.videoModel.url);
+    controller = VideoPlayerController.network(widget.videoModel.url ?? '--');
     await controller.setVolume(1.0);
     await controller.initialize();
     await controller.setLooping(true);
@@ -73,7 +73,7 @@ class VideoPreviewState extends State<VideoPreview> {
   fullScreen() {
     Get.to(
       Scaffold(
-        appBar: AppBar(title: Text(widget.videoModel.title)),
+        appBar: AppBar(title: Text(widget.videoModel.title ?? '--')),
         body: Container(
           padding: const EdgeInsets.all(10.0),
           child: VideoPreview(

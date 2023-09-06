@@ -1,5 +1,5 @@
 import 'package:cry/model/response_body_api.dart';
-import 'package:flutter_portal/utils/http_util.dart';
+import 'package:cry/utils/http_util.dart';
 
 class VideoApi {
   static page(data) {

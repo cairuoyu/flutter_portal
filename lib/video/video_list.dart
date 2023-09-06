@@ -73,10 +73,10 @@ class VideoListState extends State<VideoList> {
   }
 
   loadData() async {
-    RequestBodyApi requestBodyApi = RequestBodyApi(params: video.toJson(), page: page);
+    RequestBodyApi requestBodyApi = RequestBodyApi(params: video.toMap(), page: page);
     ResponseBodyApi responseBodyApi = await VideoApi.page(requestBodyApi.toMap());
     page = PageModel.fromMap(responseBodyApi.data);
-    videoList = [...videoList, ...page.records.map((e) => model.Video.fromJson(e)).toList()];
+    videoList = [...videoList, ...page.records.map((e) => model.Video.fromMap(e)).toList()];
     if (page.current == page.pages) {
       anyMore = false;
     }

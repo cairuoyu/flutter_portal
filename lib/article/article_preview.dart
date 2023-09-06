@@ -6,7 +6,7 @@ import 'package:flutter_portal/models/article.dart';
 class ArticlePreview extends StatelessWidget {
   final Article article;
 
-  const ArticlePreview({Key key, this.article}) : super(key: key);
+  const ArticlePreview({Key? key, required this.article}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class ArticlePreview extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            article.title,
+            article.title ?? '--',
             style: textTheme.headline3,
           ),
           SizedBox(height: 20),
@@ -33,10 +33,10 @@ class ArticlePreview extends StatelessWidget {
               child: article.fileUrl == null
                   ? Container()
                   : FutureBuilder<Response<String>>(
-                      initialData: Response(data: '...'),
-                      future: Dio().get(article.fileUrl),
+                      // initialData: Response(data: '...'),
+                      future: Dio().get(article.fileUrl ?? '--'),
                       builder: (BuildContext context, AsyncSnapshot<Response<String>> snapshot) {
-                        return Markdown(data: snapshot.data.data);
+                        return Markdown(data: snapshot.data?.data ?? '--');
                       },
                     ),
             ),

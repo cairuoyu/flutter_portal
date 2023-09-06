@@ -27,7 +27,7 @@ class VideoCardState extends State<VideoCard> {
             VideoPreview(widget.videoModel),
             Container(
               padding: EdgeInsets.all(5),
-              child: Text(widget.videoModel.title),
+              child: Text(widget.videoModel.title ?? '--'),
             ),
           ],
         ),

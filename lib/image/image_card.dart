@@ -1,17 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cry/model/image_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_portal/models/image.dart' as model;
 import 'package:get/get.dart';
 
 class ImageCard extends StatelessWidget {
-  final model.Image imageModel;
+  final ImageModel imageModel;
 
   ImageCard(this.imageModel);
 
   @override
   Widget build(BuildContext context) {
     CachedNetworkImage image = CachedNetworkImage(
-      imageUrl: imageModel.url,
+      imageUrl: imageModel.url ?? '--',
       placeholder: (context, url) => CircularProgressIndicator(),
       errorWidget: (context, url, error) => Icon(Icons.error),
     );
@@ -31,7 +31,7 @@ class ImageCard extends StatelessWidget {
           ),
           Container(
             padding: EdgeInsets.all(5),
-            child: Text(imageModel.title),
+            child: Text(imageModel.title ?? '--'),
           ),
         ],
       ),

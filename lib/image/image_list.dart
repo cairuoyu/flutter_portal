@@ -1,12 +1,12 @@
 import 'package:cry/cry_list_view.dart';
 import 'package:cry/cry_search_bar.dart';
+import 'package:cry/model/image_model.dart';
 import 'package:cry/model/order_item_model.dart';
 import 'package:cry/model/page_model.dart';
 import 'package:cry/model/request_body_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_portal/api/image_api.dart';
-import 'package:flutter_portal/models/image.dart' as model;
 import 'package:cry/model/response_body_api.dart';
 
 import 'image_card.dart';
@@ -17,10 +17,11 @@ class ImageList extends StatefulWidget {
 }
 
 class ImageListState extends State<ImageList> {
-  List<model.Image> imageList = [];
-  model.Image image = model.Image();
+  List<ImageModel> imageList = [];
+  ImageModel image = ImageModel();
   PageModel page = PageModel(orders: [OrderItemModel(column: 'create_time')]);
   bool anyMore = true;
+
   @override
   void initState() {
     super.initState();
@@ -73,10 +74,10 @@ class ImageListState extends State<ImageList> {
   }
 
   loadData() async {
-    RequestBodyApi requestBodyApi = RequestBodyApi(params: image.toJson(), page: page);
+    RequestBodyApi requestBodyApi = RequestBodyApi(params: image.toMap(), page: page);
     ResponseBodyApi responseBodyApi = await ImageApi.page(requestBodyApi.toMap());
     page = PageModel.fromMap(responseBodyApi.data);
-    imageList = [...imageList, ...page.records.map((e) => model.Image.fromJson(e)).toList()];
+    imageList = [...imageList, ...page.records.map((e) => ImageModel.fromMap(e)).toList()];
     if (page.current == page.pages) {
       anyMore = false;
     }

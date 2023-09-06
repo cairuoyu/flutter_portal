@@ -1,8 +1,7 @@
-
 import 'package:flutter/widgets.dart';
 import 'package:video_player/video_player.dart';
 
-class AspectRatioVideo extends StatefulWidget{
+class AspectRatioVideo extends StatefulWidget {
   AspectRatioVideo(this.controller);
 
   final VideoPlayerController controller;
@@ -19,8 +18,8 @@ class AspectRatioVideoState extends State<AspectRatioVideo> {
     if (!mounted) {
       return;
     }
-    if (initialized != controller.value.initialized) {
-      initialized = controller.value.initialized;
+    if (initialized != controller.value.isInitialized) {
+      initialized = controller.value.isInitialized;
       setState(() {});
     }
   }
@@ -42,7 +41,7 @@ class AspectRatioVideoState extends State<AspectRatioVideo> {
     if (initialized) {
       return Center(
         child: AspectRatio(
-          aspectRatio: controller.value?.aspectRatio,
+          aspectRatio: controller.value.aspectRatio,
           child: VideoPlayer(controller),
         ),
       );
